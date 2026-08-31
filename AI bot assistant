@@ -1,0 +1,106 @@
+pip install groq
+
+
+from groq import Groq
+
+client = Groq(
+    api_key="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"
+)
+
+# --------------------------------
+# ROLES ARRAY
+# --------------------------------
+
+roles = [
+    {
+        "id": 1,
+        "name": "customer_support",
+        "description": """
+        You are a customer support assistant.
+        Help customers with products, orders, delivery,
+        returns, refunds and warranty.
+        Be polite and professional.
+        """
+    },
+
+    {
+        "id": 2,
+        "name": "teacher",
+        "description": """
+        You are an AI teacher.
+        Explain concepts in simple language.
+        Give examples and step-by-step explanations.
+        """
+    },
+
+    {
+        "id": 3,
+        "name": "programmer",
+        "description": """
+        You are an expert Python programmer.
+        Help users write, debug and explain Python code.
+        Provide clean and simple solutions.
+        """
+    }
+]
+
+
+# --------------------------------
+# SELECT ROLE
+# --------------------------------
+
+print("Available Roles:")
+print("1. Customer Support")
+print("2. Teacher")
+print("3. Programmer")
+
+role_choice = int(input("\nSelect Role: "))
+
+selected_role = roles[role_choice - 1]
+
+print("\nSelected Role:", selected_role["name"])
+
+
+# --------------------------------
+# CONVERSATION CONTEXT
+# --------------------------------
+
+messages = [
+    {
+        "role": "system",
+        "content": selected_role["description"]
+    }
+]
+
+
+# --------------------------------
+# CHAT
+# --------------------------------
+
+while True:
+
+    user_input = input("\nYou: ")
+
+    if user_input.lower() in ["exit", "quit", "bye"]:
+        print("AI: Goodbye!")
+        break
+
+    messages.append({
+        "role": "user",
+        "content": user_input
+    })
+
+    response = client.chat.completions.create(
+        model="openai/gpt-oss-20b",
+        messages=messages,
+        temperature=0.5
+    )
+
+    answer = response.choices[0].message.content
+
+    print("\nAI:", answer)
+
+    messages.append({
+        "role": "assistant",
+        "content": answer
+    })
