@@ -1,5 +1,4 @@
 
-pip install streamlit langchain langchain-openai langchain-community chromadb pypdf
 import os
 import tempfile
 import streamlit as st
