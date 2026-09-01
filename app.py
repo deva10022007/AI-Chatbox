@@ -1,4 +1,4 @@
-streamlit run app.py
+
 pip install streamlit langchain langchain-openai langchain-community chromadb pypdf
 import os
 import tempfile
